@@ -124,4 +124,4 @@ Produces logs like:
 
 ## License
 
-Add a `LICENSE` file before publishing this as a public library.
+MIT. See [LICENSE](./LICENSE).
