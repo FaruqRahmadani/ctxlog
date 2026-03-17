@@ -3,7 +3,6 @@ package main
 import (
 	"log"
 	"net/http"
-	"time"
 
 	"github.com/FaruqRahmadani/ctxlog"
 	ctxlogecho "github.com/FaruqRahmadani/ctxlog/http/echo/v4"
@@ -27,10 +26,10 @@ func main() {
 			)
 		}),
 
-		ctxlogecho.WithOnResponse(func(c echo.Context, status int, dur time.Duration, fields map[string]any) {
+		ctxlogecho.WithOnResponse(func(c echo.Context, fields map[string]any) {
 			log.Printf("OUT status=%d dur=%s fields=%v",
-				status,
-				dur,
+				c.Response().Status,
+				fields[ctxlog.TagLatencyHuman],
 				fields,
 			)
 		}),

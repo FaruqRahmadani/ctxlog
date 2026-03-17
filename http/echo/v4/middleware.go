@@ -4,7 +4,6 @@ import (
 	"crypto/rand"
 	"encoding/binary"
 	"encoding/hex"
-	"net/http"
 	"sync/atomic"
 	"time"
 
@@ -78,12 +77,13 @@ func middleware(cfg Config) echo.MiddlewareFunc {
 
 			err := next(c)
 
+			ctxlog.Add(ctx, ctxlog.TagStatus, c.Response().Status)
+			ctxlog.Add(ctx, ctxlog.TagDuration, time.Since(start))
+			ctxlog.Add(ctx, ctxlog.TagLatencyMS, time.Since(start).Milliseconds())
+			ctxlog.Add(ctx, ctxlog.TagLatencyHuman, time.Since(start).String())
+
 			if cfg.OnResponse != nil {
-				status := c.Response().Status
-				if status == 0 {
-					status = http.StatusOK
-				}
-				cfg.OnResponse(c, status, time.Since(start), ctxlog.Get(ctx))
+				cfg.OnResponse(c, ctxlog.Get(ctx))
 			}
 
 			return err

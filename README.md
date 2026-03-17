@@ -107,9 +107,9 @@ Produces logs like:
 
 ```text
 ============ On Request ============
-{"app":"my-service","http_host":"example.com","http_method":"GET","http_path":"/hello/bob","remote_ip":"192.0.2.1","request_id":"5231c780a39082ea4ccf4afda2ec417e","route":"/hello/:name"}
+{"app":"my-service","http_host":"example.com","http_method":"GET","http_path":"/hello/bob","remote_ip":"192.0.2.1","request_id":"79308455ec6ba7ef99e95808211d15a2","route":"/hello/:name"}
 ============ On Response ===========
-{"app":"my-service","http_host":"example.com","http_method":"GET","http_path":"/hello/bob","name":"bob","random-value":"some random","remote_ip":"192.0.2.1","request_id":"5231c780a39082ea4ccf4afda2ec417e","route":"/hello/:name","user_id":"u-123"}
+{"app":"my-service","duration":55375,"http_host":"example.com","http_method":"GET","http_path":"/hello/bob","latency_human":"55.625µs","latency_ms":0,"name":"bob","random-value":"some random","remote_ip":"192.0.2.1","request_id":"79308455ec6ba7ef99e95808211d15a2","route":"/hello/:name","status":200,"user_id":"u-123"}
 ```
 
 ## Notes

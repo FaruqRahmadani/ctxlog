@@ -1,8 +1,6 @@
 package ctxlogecho
 
 import (
-	"time"
-
 	echo "github.com/labstack/echo/v4"
 )
 
@@ -12,7 +10,7 @@ type Config struct {
 	DisableBaseFields bool
 	AdditionalFields  func(c echo.Context) map[string]any
 	OnRequest         func(c echo.Context, fields map[string]any)
-	OnResponse        func(c echo.Context, status int, dur time.Duration, fields map[string]any)
+	OnResponse        func(c echo.Context, fields map[string]any)
 }
 
 type Option func(*Config)
@@ -37,6 +35,6 @@ func WithOnRequest(fn func(c echo.Context, fields map[string]any)) Option {
 	return func(cfg *Config) { cfg.OnRequest = fn }
 }
 
-func WithOnResponse(fn func(c echo.Context, status int, dur time.Duration, fields map[string]any)) Option {
+func WithOnResponse(fn func(c echo.Context, fields map[string]any)) Option {
 	return func(cfg *Config) { cfg.OnResponse = fn }
 }
