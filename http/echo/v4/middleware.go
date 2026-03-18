@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"encoding/binary"
 	"encoding/hex"
+	"strings"
 	"sync/atomic"
 	"time"
 
@@ -52,6 +53,7 @@ func middleware(cfg Config) echo.MiddlewareFunc {
 				ctxlog.Add(ctx, ctxlog.TagHTTPMethod, req.Method)
 				ctxlog.Add(ctx, ctxlog.TagHTTPPath, req.URL.Path)
 				ctxlog.Add(ctx, ctxlog.TagHTTPHost, req.Host)
+				ctxlog.Add(ctx, ctxlog.TagQueryParams, flattenQueryParams(req.URL.Query()))
 				if route := c.Path(); route != "" {
 					ctxlog.Add(ctx, ctxlog.TagRoute, route)
 				}
@@ -102,4 +104,25 @@ func defaultRequestID() string {
 	binary.BigEndian.PutUint64(fb[:8], uint64(time.Now().UnixNano()))
 	binary.BigEndian.PutUint64(fb[8:], atomic.AddUint64(&fallbackReqIDCounter, 1))
 	return hex.EncodeToString(fb[:])
+}
+
+func flattenQueryParams(values map[string][]string) map[string]string {
+	if len(values) == 0 {
+		return nil
+	}
+
+	out := make(map[string]string, len(values))
+	for k, vals := range values {
+		if len(vals) == 0 {
+			out[k] = ""
+			continue
+		}
+		if len(vals) == 1 {
+			out[k] = vals[0]
+			continue
+		}
+		out[k] = strings.Join(vals, ",")
+	}
+
+	return out
 }

@@ -12,4 +12,5 @@ const (
 	TagDuration     = "duration"
 	TagLatencyMS    = "latency_ms"
 	TagLatencyHuman = "latency_human"
+	TagQueryParams  = "query_params"
 )
