@@ -54,6 +54,7 @@ func middleware(cfg Config) echo.MiddlewareFunc {
 				ctxlog.Add(ctx, ctxlog.TagHTTPPath, req.URL.Path)
 				ctxlog.Add(ctx, ctxlog.TagHTTPHost, req.Host)
 				ctxlog.Add(ctx, ctxlog.TagQueryParams, flattenQueryParams(req.URL.Query()))
+				ctxlog.Add(ctx, ctxlog.TagTimestamp, start.Local().Format(time.RFC3339))
 				if route := c.Path(); route != "" {
 					ctxlog.Add(ctx, ctxlog.TagRoute, route)
 				}
